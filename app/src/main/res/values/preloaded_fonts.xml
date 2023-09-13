@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/aldrich</item>
+        <item>@font/anton</item>
+        <item>@font/baloo_bhai</item>
+        <item>@font/baloo_bhai_2_medium</item>
+        <item>@font/bangers</item>
+        <item>@font/basic</item>
+        <item>@font/bungee</item>
+        <item>@font/carter_one</item>
+        <item>@font/chicle</item>
+        <item>@font/droid_sans</item>
+        <item>@font/nova_round</item>
+    </array>
+</resources>

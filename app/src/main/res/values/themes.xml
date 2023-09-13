@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.RunningTrackerApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="android:windowLightStatusBar">true</item>
+         <item name="colorPrimary">@color/lightBg</item>
+        <item name="android:background">@color/lightBg</item>
+    </style>
+
+    <style name="Theme.RunningTrackerApp" parent="Base.Theme.RunningTrackerApp" />
+</resources>
