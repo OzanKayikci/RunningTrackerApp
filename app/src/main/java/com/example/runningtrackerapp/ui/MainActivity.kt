@@ -29,10 +29,10 @@ class MainActivity : AppCompatActivity() {
 
         navHostFragment.findNavController().addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.settingsFragment, R.id.statisticsFragment, R.id.statisticsFragment ->
-                    binding.bottomNavigationView.visibility = View.VISIBLE
+                R.id.settingsFragment, R.id.statisticsFragment, R.id.statisticsFragment,R.id.runFragment ->
+                    binding.bottomCardNavigationView.visibility = View.VISIBLE
 
-                else -> binding.bottomNavigationView.visibility = View.GONE
+                else -> binding.bottomCardNavigationView.visibility = View.GONE
             }
         }
     }

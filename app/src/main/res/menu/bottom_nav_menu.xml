@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item  android:id="@+id/runFragment"
-        android:title="Your Runs"
+    <item
+        android:id="@+id/runFragment"
         android:icon="@drawable/baseline_run_24"
-        />
-    <item  android:id="@+id/statisticsFragment"
-        android:title="Statistics"
+        android:title="Your Runs"
+       />
+    <item
+        android:id="@+id/statisticsFragment"
         android:icon="@drawable/round_query_stats_24"
-        />
-    <item  android:id="@+id/settingsFragment"
-        android:title="Settings"
+        android:title="Statistics" />
+    <item
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/round_settings_24"
-        />
+        android:title="Settings" />
 
 </menu>

@@ -4,7 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("androidx.navigation.safeargs")
     id("com.google.dagger.hilt.android")
-
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -68,6 +68,8 @@ dependencies {
     // Coroutine Lifecycle Scopes
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+
+    implementation("androidx.lifecycle:lifecycle-service:2.6.2")
     // Navigation Components
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.2")

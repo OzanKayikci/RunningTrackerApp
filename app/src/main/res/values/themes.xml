@@ -3,8 +3,9 @@
     <style name="Base.Theme.RunningTrackerApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="android:windowLightStatusBar">true</item>
-         <item name="colorPrimary">@color/lightBg</item>
-        <item name="android:background">@color/lightBg</item>
+        <item name="android:statusBarColor">@color/lightBg</item>
+         <item name="colorPrimary">@color/lightPrimary</item>
+
     </style>
 
     <style name="Theme.RunningTrackerApp" parent="Base.Theme.RunningTrackerApp" />
