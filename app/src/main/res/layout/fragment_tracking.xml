@@ -32,40 +32,53 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvTimer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+
                     android:gravity="center"
                     android:text="00:00:00:00"
                     android:textSize="50sp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnToggleRun"
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/lightPrimary"
-                    android:text="Start" />
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnToggleRun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/lightPrimary"
+                        android:text="Start" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnFinishRun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:text="Finish Run"
+                        android:visibility="gone" />
+
+                </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="2" />
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnFinishRun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Finish Run"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/btnToggleRun"
-                app:layout_constraintTop_toBottomOf="@+id/tvTimer" />
 
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

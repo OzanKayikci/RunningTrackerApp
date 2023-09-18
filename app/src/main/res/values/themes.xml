@@ -5,7 +5,7 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/lightBg</item>
          <item name="colorPrimary">@color/lightPrimary</item>
-
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 
     <style name="Theme.RunningTrackerApp" parent="Base.Theme.RunningTrackerApp" />

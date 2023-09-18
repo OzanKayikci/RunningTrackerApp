@@ -21,13 +21,17 @@ import androidx.navigation.fragment.findNavController
 import com.example.runningtrackerapp.R
 import com.example.runningtrackerapp.databinding.FragmentRunBinding
 import com.example.runningtrackerapp.utilities.Constants.REQUEST_CODE_LOCATION_PERMISSION
+import com.example.runningtrackerapp.utilities.Constants.REQUEST_CODE_NOTIFICATION_PERMISSION
 import com.example.runningtrackerapp.utilities.Constants.backgroundLocationPermission
 import com.example.runningtrackerapp.utilities.Constants.locationPermissions
+import com.example.runningtrackerapp.utilities.Constants.postNotificationPermissions
 import com.example.runningtrackerapp.utilities.TrackingUtility.hasLocationPermissions
+import com.example.runningtrackerapp.utilities.TrackingUtility.hasNotificationPermission
 import com.example.runningtrackerapp.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class RunFragment : Fragment() {
@@ -41,10 +45,12 @@ class RunFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         _binding = FragmentRunBinding.inflate(layoutInflater)
         val view = binding.root
-        requestPermissions()
+        showPermissionDialog()
         buttonHandle()
+        Timber.wtf("RunFragment OnCreate running")
         return view
     }
 
@@ -53,85 +59,62 @@ class RunFragment : Fragment() {
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
         }
     }
-//
-//    private val requestPermissionLauncher = registerForActivityResult(
-//        ActivityResultContracts.RequestMultiplePermissions()
-//    ) { permissions ->
-//        val grantedPermissions = permissions.filter { it.value }
-//        val deniedPermissions = permissions.filter { !it.value }
-//
-//        if (grantedPermissions.isNotEmpty()) {
-//            // Permission granted
-//        } else if (deniedPermissions.isNotEmpty()) {
-//            // Permission denied
-//        }
-//    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val grantedPermissions = permissions.filter { it.value }
+        val deniedPermissions = permissions.filter { !it.value }
+
+        if (grantedPermissions.isNotEmpty()) {
+            // Permission granted
+        } else if (deniedPermissions.isNotEmpty()) {
+            Snackbar.make(
+                requireView(),
+                "Location and Notification permissions are required for this feature. Please enable it in the app settings.",
+                Snackbar.LENGTH_LONG
+            ).setAction("Settings") {
+                navigateToAppSettings()
+            }.show()
+        }
+    }
 
     private fun requestPermissions() {
-        // Check if background location permission is needed (Android 11+)
 
-        if (hasLocationPermissions(requireContext())) {
+        if (!hasNotificationPermission(requireContext()) || !hasLocationPermissions(requireContext())) {
+            val permissionsToRequest = mutableListOf<String>()
+
+            if (!hasNotificationPermission(requireContext())) {
+                permissionsToRequest.add(postNotificationPermissions)
+            }
+
+            if (!hasLocationPermissions(requireContext())) {
+                permissionsToRequest.addAll(locationPermissions)
+            }
+
+            requestPermissionLauncher.launch(permissionsToRequest.toTypedArray())
+        }
+    }
+
+
+    private fun showPermissionDialog() {
+        if (hasLocationPermissions(requireContext()) && hasNotificationPermission(requireContext())) {
             return
         }
-
-        requestLocationPermissions()
-
-
-    }
-
-    private fun requestLocationPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            locationPermissions.plus(backgroundLocationPermission)
-        }
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            locationPermissions,
-            REQUEST_CODE_LOCATION_PERMISSION
-        )
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-
-        Log.d("permission code", " $requestCode")
-        when (requestCode) {
-            REQUEST_CODE_LOCATION_PERMISSION -> {
-                if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                    // Permissions granted, you can proceed with your location-related logic
-                    // Example: Start using location services
-                } else {
-                    // Permissions denied, show a rationale dialog if needed
-
-                    AlertDialog.Builder(requireContext())
-                        .setMessage("Location permission is required for this feature. Please provide permission to access your location.")
-                        .setPositiveButton("OK") { dialogInterface, _ ->
-                            dialogInterface.dismiss()
-                            requestPermissions()
-                        }
-                        .setNegativeButton("Cancel") { dialogInterface, _ ->
-                            dialogInterface.dismiss()
-                            navigateToAppSettings()
-
-                        }
-                        .create()
-                        .show()
-
-                    // Permissions denied without asking again, user must enable them in settings
-                    // You can show a message or navigate to the app settings
-                    // Example: Show a Snackbar or navigate to app settings
-                    Snackbar.make(
-                        requireView(),
-                        "Location permission is required for this feature. Please enable it in the app settings.",
-                        Snackbar.LENGTH_LONG
-                    ).setAction("Settings") {
-                        navigateToAppSettings()
-                    }.show()
-                }
+        AlertDialog.Builder(requireContext())
+            .setMessage("Location and Notification permissions are required for this feature. Please provide permission to access your location.")
+            .setPositiveButton("OK") { dialogInterface, _ ->
+                dialogInterface.dismiss()
+                requestPermissions()
             }
-        }
+            .setNegativeButton("Cancel") { dialogInterface, _ ->
+                dialogInterface.dismiss()
+                navigateToAppSettings()
+
+            }
+            .create()
+            .show()
+
     }
 
     private fun navigateToAppSettings() {
