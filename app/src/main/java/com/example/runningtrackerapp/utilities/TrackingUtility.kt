@@ -3,9 +3,11 @@ package com.example.runningtrackerapp.utilities
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
+import com.example.runningtrackerapp.services.Polyline
 import com.example.runningtrackerapp.utilities.Constants.backgroundLocationPermission
 import com.example.runningtrackerapp.utilities.Constants.locationPermissions
 import com.example.runningtrackerapp.utilities.Constants.postNotificationPermissions
@@ -44,6 +46,26 @@ object TrackingUtility {
         ) == PermissionChecker.PERMISSION_GRANTED
     }
 
+
+    fun calculatePolylineLength(polyline: Polyline): Float {
+        var distance = 0f
+        for (i in 0..polyline.size - 2) {
+            val pos1 = polyline[i]
+            val pos2 = polyline[i + 1]
+
+
+            val result = FloatArray(1)
+            Location.distanceBetween(
+                pos1.latitude,
+                pos1.longitude,
+                pos2.latitude,
+                pos2.longitude,
+                result
+            )
+            distance += result[0]
+        }
+        return distance
+    }
 
     fun getFormattedStopWatchTime(ms: Long, includeMillis: Boolean = false): String {
 

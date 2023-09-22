@@ -19,6 +19,8 @@ class AppModule {
         return RunningDatabase.getRunningDB(context)
     }
 
+    @Provides
+    @Singleton
     fun getRunDao(runningDb: RunningDatabase): RunDAO {
         return runningDb.getRunDao()
     }

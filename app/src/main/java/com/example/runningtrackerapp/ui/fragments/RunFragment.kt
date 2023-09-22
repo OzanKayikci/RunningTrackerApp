@@ -1,28 +1,23 @@
 package com.example.runningtrackerapp.ui.fragments
 
-import android.Manifest
+
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.runningtrackerapp.R
+import com.example.runningtrackerapp.adapters.RunAdapter
 import com.example.runningtrackerapp.databinding.FragmentRunBinding
-import com.example.runningtrackerapp.utilities.Constants.REQUEST_CODE_LOCATION_PERMISSION
-import com.example.runningtrackerapp.utilities.Constants.REQUEST_CODE_NOTIFICATION_PERMISSION
-import com.example.runningtrackerapp.utilities.Constants.backgroundLocationPermission
 import com.example.runningtrackerapp.utilities.Constants.locationPermissions
 import com.example.runningtrackerapp.utilities.Constants.postNotificationPermissions
 import com.example.runningtrackerapp.utilities.TrackingUtility.hasLocationPermissions
@@ -38,8 +33,11 @@ class RunFragment : Fragment() {
     private var _binding: FragmentRunBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel by lazy {
+        ViewModelProvider(this, defaultViewModelProviderFactory)[MainViewModel::class.java]
+    }
 
+    private lateinit var runAdapter: RunAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,16 +46,31 @@ class RunFragment : Fragment() {
 
         _binding = FragmentRunBinding.inflate(layoutInflater)
         val view = binding.root
+
+        setupRecycleView()
+        observerFunctions()
         showPermissionDialog()
         buttonHandle()
-        Timber.wtf("RunFragment OnCreate running")
         return view
+    }
+
+    private fun observerFunctions() {
+        viewModel.runSortedByDate.observe(viewLifecycleOwner) {
+            runAdapter.submitList(it)
+        }
     }
 
     private fun buttonHandle() {
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
         }
+    }
+
+    private fun setupRecycleView() = binding.rvRuns.apply {
+        runAdapter = RunAdapter()
+        adapter = runAdapter
+
+        layoutManager = LinearLayoutManager(requireContext())
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
