@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,24 +17,30 @@ import com.example.runningtrackerapp.utilities.TrackingUtility
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import javax.inject.Inject
 
-class RunAdapter : RecyclerView.Adapter<RunAdapter.RunViewHolder>() {
+class RunAdapter @Inject constructor(private val navController: NavController) :
+    RecyclerView.Adapter<RunAdapter.RunViewHolder>() {
 
     inner class RunViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageView = itemView.findViewById<ImageView>(R.id.ivRunImage)
+
         private val dateView = itemView.findViewById<TextView>(R.id.tvDate)
         private val speedView = itemView.findViewById<TextView>(R.id.tvAvgSpeed)
         private val distanceView = itemView.findViewById<TextView>(R.id.tvDistance)
         private val timeView = itemView.findViewById<TextView>(R.id.tvTime)
         private val caloriesView = itemView.findViewById<TextView>(R.id.tvCalories)
+        private val startingTime = itemView.findViewById<TextView>(R.id.tvStartTime)
         fun bind(run: Run) {
-            Glide.with(itemView).load(run.img).into(imageView)
+
             val calendar = Calendar.getInstance().apply {
                 timeInMillis = run.timestamp
             }
 
-            val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("dd.MM.yy - EEEE", Locale.getDefault())
             dateView.text = dateFormat.format(calendar.time)
+
+            val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            startingTime.text = timeFormat.format(calendar.time)
 
             val avgSpeed = "${run.avgSpeedInKMH}km/h"
             speedView.text = avgSpeed
@@ -42,7 +50,7 @@ class RunAdapter : RecyclerView.Adapter<RunAdapter.RunViewHolder>() {
 
             timeView.text = TrackingUtility.getFormattedStopWatchTime(run.timeInMillis)
 
-            val caloriesBurned = "${run.caloriesBurned}"
+            val caloriesBurned = "${run.caloriesBurned} cal"
             caloriesView.text = caloriesBurned
         }
     }
@@ -74,6 +82,12 @@ class RunAdapter : RecyclerView.Adapter<RunAdapter.RunViewHolder>() {
 
         val run = differ.currentList[position]
         holder.bind(run)
+
+        holder.itemView.setOnClickListener {
+
+            val bundle = bundleOf("runId" to run.id.toString())
+            navController.navigate(R.id.action_runFragment_to_runDetailsFragment, bundle)
+        }
     }
 
     override fun getItemCount(): Int {

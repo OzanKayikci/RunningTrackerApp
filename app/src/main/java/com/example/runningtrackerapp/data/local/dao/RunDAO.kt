@@ -32,6 +32,10 @@ interface RunDAO {
 
     @Query("SELECT * FROM running_table ORDER BY distanceInMeters DESC")
     fun getAllRunsSortedByDistance(): LiveData<List<Run>>
+
+    @Query("SELECT * FROM running_table WHERE id = :id")
+    fun getRunWithId(id:Int):Run
+
     /**---------------------*/
 
     /** This functions for statistics fragment*/
@@ -48,4 +52,5 @@ interface RunDAO {
     @Query("SELECT AVG(avgSpeedInKMH) FROM running_table ")
     fun getTotalAvgSpeed(): LiveData<Float>
     /**-------------------------*/
+
 }

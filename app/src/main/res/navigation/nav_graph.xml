@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_runFragment_to_trackingFragment"
             app:destination="@id/trackingFragment" />
+        <action
+            android:id="@+id/action_runFragment_to_runDetailsFragment"
+            app:destination="@id/runDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/setupFragment"
@@ -41,4 +44,8 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.runningtrackerapp.ui.fragments.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/runDetailsFragment"
+        android:name="com.example.runningtrackerapp.ui.fragments.RunDetailsFragment"
+        android:label="RunDetailsFragment" />
 </navigation>

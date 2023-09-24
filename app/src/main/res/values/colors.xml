@@ -5,6 +5,8 @@
     <color name="lightSecondary">#9394a5</color>
     <color name="lightTertiary">#d2d3db</color>
     <color name="lightQuaternary">#e4e5f1</color>
+    <color name="lightFifth">#EDEDF3</color>
+    <color name="lightCardBg">#35364A</color>
 
 
     <color name="black">#FF000000</color>

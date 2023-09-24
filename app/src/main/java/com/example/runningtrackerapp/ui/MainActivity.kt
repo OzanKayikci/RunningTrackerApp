@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         navigateToTrackingFragmentIfNeeded(intent)
 
         setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = ""
         binding.bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
 
         Timber.wtf("mainActivity OnCreate running")

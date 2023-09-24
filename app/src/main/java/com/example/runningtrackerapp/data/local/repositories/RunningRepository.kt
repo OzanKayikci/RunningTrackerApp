@@ -12,6 +12,7 @@ class RunningRepository @Inject constructor(
     suspend fun insertRun(run: Run) = runDao.insertRun(run)
     suspend fun deleteRun(run: Run) = runDao.deleteRun(run)
 
+    fun getRunWithId(id: Int) = runDao.getRunWithId(id)
     fun getAllRunsSortedByDate() = runDao.getAllRunsSortedByDate()
     fun getAllRunsSortedByDistance() = runDao.getAllRunsSortedByDistance()
     fun getAllRunsSortedByAvgSpeed() = runDao.getAllRunsSortedByAvgSpeed()

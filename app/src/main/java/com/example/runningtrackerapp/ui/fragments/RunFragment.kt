@@ -8,6 +8,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import com.example.runningtrackerapp.adapters.RunAdapter
 import com.example.runningtrackerapp.databinding.FragmentRunBinding
 import com.example.runningtrackerapp.utilities.Constants.locationPermissions
 import com.example.runningtrackerapp.utilities.Constants.postNotificationPermissions
+import com.example.runningtrackerapp.utilities.SortType
 import com.example.runningtrackerapp.utilities.TrackingUtility.hasLocationPermissions
 import com.example.runningtrackerapp.utilities.TrackingUtility.hasNotificationPermission
 import com.example.runningtrackerapp.viewmodels.MainViewModel
@@ -47,6 +49,7 @@ class RunFragment : Fragment() {
         _binding = FragmentRunBinding.inflate(layoutInflater)
         val view = binding.root
 
+        setFilters()
         setupRecycleView()
         observerFunctions()
         showPermissionDialog()
@@ -54,9 +57,25 @@ class RunFragment : Fragment() {
         return view
     }
 
+    private fun setFilters() {
+        when (viewModel.sortType) {
+            SortType.DATE -> binding.spFilter.setSelection(0)
+            SortType.RUNNING_TIME -> binding.spFilter.setSelection(1)
+            SortType.DISTANCE -> binding.spFilter.setSelection(2)
+            SortType.AVG_SPEED -> binding.spFilter.setSelection(3)
+            SortType.CALORIES_BURNED -> binding.spFilter.setSelection(4)
+        }
+    }
+
     private fun observerFunctions() {
-        viewModel.runSortedByDate.observe(viewLifecycleOwner) {
-            runAdapter.submitList(it)
+
+
+        viewModel.runs.observe(viewLifecycleOwner) {
+            if (it != null) {
+                Timber.d("values", it)
+                runAdapter.submitList(it)
+
+            }
         }
     }
 
@@ -64,10 +83,32 @@ class RunFragment : Fragment() {
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
         }
+        binding.spFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when (position) {
+                    0 -> viewModel.sortRuns(SortType.DATE)
+                    1 -> viewModel.sortRuns(SortType.RUNNING_TIME)
+                    2 -> viewModel.sortRuns(SortType.DISTANCE)
+                    3 -> viewModel.sortRuns(SortType.AVG_SPEED)
+                    4 -> viewModel.sortRuns(SortType.CALORIES_BURNED)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
     }
 
     private fun setupRecycleView() = binding.rvRuns.apply {
-        runAdapter = RunAdapter()
+        runAdapter = RunAdapter(findNavController())
         adapter = runAdapter
 
         layoutManager = LinearLayoutManager(requireContext())
