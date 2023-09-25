@@ -35,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = ""
         binding.bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
 
+        binding.bottomNavigationView.setOnItemReselectedListener { /*NO-OP*/ }// this for blocking refresh page after reselect
+
         Timber.wtf("mainActivity OnCreate running")
         navHostFragment.findNavController().addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {

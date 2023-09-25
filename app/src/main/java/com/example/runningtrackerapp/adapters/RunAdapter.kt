@@ -50,7 +50,7 @@ class RunAdapter @Inject constructor(private val navController: NavController) :
 
             timeView.text = TrackingUtility.getFormattedStopWatchTime(run.timeInMillis)
 
-            val caloriesBurned = "${run.caloriesBurned} cal"
+            val caloriesBurned = "${run.caloriesBurned} kcal"
             caloriesView.text = caloriesBurned
         }
     }
