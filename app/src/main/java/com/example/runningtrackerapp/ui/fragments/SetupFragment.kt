@@ -39,13 +39,14 @@ class SetupFragment : Fragment() {
 
         if (!isFirstAppOpen) {
             val navOptions = NavOptions.Builder().setPopUpTo(R.id.setupFragment, true)
-                .build()
+                .build() // we set "inclusive" to true to exclude (pop) the given target from the back stack.
 
             findNavController().navigate(
                 R.id.action_setupFragment_to_runFragment,
                 savedInstanceState,
                 navOptions
             )
+            //The "savedInstanceState" parameter contains data saved from a previous state of the fragment or activity. This data can be restored when the fragment or activity is rebuilt.
         }
 
         val view = binding.root

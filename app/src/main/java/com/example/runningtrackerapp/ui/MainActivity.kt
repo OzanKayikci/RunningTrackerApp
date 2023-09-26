@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         Timber.wtf("mainActivity OnCreate running")
         navHostFragment.findNavController().addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.settingsFragment, R.id.statisticsFragment, R.id.statisticsFragment, R.id.runFragment ->
+                R.id.settingsFragment, R.id.statisticsFragment, R.id.runFragment ->
                     binding.bottomCardNavigationView.visibility = View.VISIBLE
 
                 else -> binding.bottomCardNavigationView.visibility = View.GONE

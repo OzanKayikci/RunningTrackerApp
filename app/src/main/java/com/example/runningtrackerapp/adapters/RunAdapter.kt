@@ -55,7 +55,7 @@ class RunAdapter @Inject constructor(private val navController: NavController) :
         }
     }
 
-    val diffCallback = object : DiffUtil.ItemCallback<Run>() {
+    private val diffCallback = object : DiffUtil.ItemCallback<Run>() {
         override fun areItemsTheSame(oldItem: Run, newItem: Run): Boolean {
             return oldItem.id == newItem.id
         }
@@ -65,7 +65,7 @@ class RunAdapter @Inject constructor(private val navController: NavController) :
         }
     }
 
-    val differ = AsyncListDiffer(this, diffCallback)
+    private val differ = AsyncListDiffer(this, diffCallback)
 
     fun submitList(list: List<Run>) = differ.submitList(list)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RunViewHolder {

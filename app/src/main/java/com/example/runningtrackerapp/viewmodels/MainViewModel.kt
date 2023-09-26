@@ -21,7 +21,10 @@ class MainViewModel @Inject constructor(private val repository: RunningRepositor
     private var runsSortedByTimeInMillis = repository.getAllRunsSortedByTimeInMillis()
     private var runsSortedByAvgSpeed = repository.getAllRunsSortedByAvgSpeed()
 
+
     val runs = MediatorLiveData<List<Run>>()
+    // val runs:MediatorLiveData<List<Run>> = MediatorLiveData()
+
     var sortType = SortType.DATE
 
     init {
