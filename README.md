@@ -21,7 +21,8 @@ A simple project developed with <b>Kotlin</b>. This app track and saves your run
 - MPAndroidChart
 
 
-### Achievements: 
+
+## Achievements: 
 (except for previous project achievements - MovieCatch)
 
 - Foreground services
