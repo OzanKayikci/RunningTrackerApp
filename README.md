@@ -1,6 +1,6 @@
 # RunningTrackerApp
 
-A simple project developed with <b>Kotlin</b>. This app track and saves your runs with google maps.
+A simple project developed with <b>Kotlin</b>. This application tracks and records your runs with google maps.
 
 <br/>--><B>MVVM</B> Architecture
 
