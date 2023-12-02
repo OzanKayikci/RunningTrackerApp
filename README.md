@@ -15,7 +15,7 @@ A simple project developed with <b>Kotlin</b>. This application tracks and recor
 - LiveData
 - LifeCycle
 - Room
-- DataBinding
+- ViewBinding
 - NavController
 - Google Maps Location Services
 - MPAndroidChart
